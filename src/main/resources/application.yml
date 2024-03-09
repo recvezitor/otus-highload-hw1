@@ -1,0 +1,31 @@
+quarkus:
+  http:
+    port: ${PORT:8080}
+    root-path: /
+  log:
+    level: ${LOG_LEVEL:INFO}
+    category:
+      "com.dimas":
+        level: ${OTUS_LOG_LEVEL:DEBUG}
+    console:
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{3.}] (%t) %s%e%n"
+  console:
+    color: true
+  openapi-generator:
+    codegen:
+      input-base-dir: src/main/resources/openapi
+      spec:
+        openapi_json:
+          base-package: com.dimas.openapi
+          model-name-prefix: Api
+
+  datasource:
+    jdbc:
+      url: ${DB_URL}
+      max-size: ${DB_POOL_SIZE:100}
+    db-kind: postgresql
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+rest-logging:
+  enabled: true

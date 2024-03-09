@@ -1,0 +1,31 @@
+###
+GET {{protocol}}{{host}}/q/health
+
+###
+GET {{protocol}}{{host}}/q/info
+
+###
+POST {{protocol}}{{host}}/user/register
+Content-Type: application/json
+
+{
+  "first_name": "fff1",
+  "second_name": "fff",
+  "birthdate": "2012-02-03",
+  "biography": "fff",
+  "city": "fff",
+  "password": "123"
+}
+
+###
+POST {{protocol}}{{host}}/login
+Content-Type: application/json
+
+{
+  "id": "f33cb6dd-dad0-4fc8-8511-fbecc91dc2bc",
+  "password": "123"
+}
+
+###
+GET {{protocol}}{{host}}/user/get/f33cb6dd-dad0-4fc8-8511-fbecc91dc2bc
+Content-Type: application/json
