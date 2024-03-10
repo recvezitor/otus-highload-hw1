@@ -3,9 +3,9 @@ package com.dimas.service;
 import com.dimas.domain.PersonCreate;
 import com.dimas.domain.entity.Person;
 import com.dimas.domain.mapper.PersonMapper;
-import com.dimas.exception.ApiLoginFailedException;
 import com.dimas.persistence.PersonRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.ForbiddenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,10 +27,10 @@ public class PersonService {
     }
 
     public String login(UUID id, String password) {
-        var person = personRepository.getById(id);
+        var person = personRepository.getById(id);//later make the same answer for both not found and login failed
         log.info("Person is found={}", person);
         if (!validPassword(person.getPassword(), password)) {
-            throw new ApiLoginFailedException("Неверный пароль");
+            throw new ForbiddenException("Неверный логин или пароль");
         }
         return person.getId().toString();//todo return token, replace to auth service
     }

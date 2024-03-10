@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JdbcExceptionHandler implements ExceptionMapper<MyJdbcException> {
 
-    private final jakarta.inject.Provider<ContainerRequestContext> containerRequestContextProvider;
-
     @Override
     public Response toResponse(MyJdbcException exception) {
         return Response.status(400).entity(exception.getMessage()).build();
