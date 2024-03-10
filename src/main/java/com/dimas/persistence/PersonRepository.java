@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -39,32 +40,30 @@ public class PersonRepository {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement("""
-                    insert into %s.person(id, first_name, second_name, birthdate, biography, city, created_at, password)
-                    values (?, ?, ?, ?, ?, ?, ?, ?)
-                    """.formatted(SCHEMA_NAME));
+                    insert into %s.person(first_name, second_name, birthdate, biography, city, created_at, password)
+                    values (?, ?, ?, ?, ?, ?, ?)
+                    RETURNING id
+                    """.formatted(SCHEMA_NAME), Statement.RETURN_GENERATED_KEYS);
             var id = request.getId();
             if (!isNull(id)) {
-                throw new MyJdbcException("id is not null");
+                log.warn("id will be overrriden");
             }
-            request.setId(UUID.randomUUID());
-            PGobject pGobject = new PGobject();
-            pGobject.setType("uuid");
-            pGobject.setValue(request.getId().toString());
-            preparedStatement.setObject(1, pGobject, Types.OTHER);
-            preparedStatement.setString(2, request.getFirstName());
-            preparedStatement.setString(3, request.getSecondName());
-            preparedStatement.setDate(4, toDate(request.getBirthdate()));
-            preparedStatement.setString(5, request.getBiography());
-            preparedStatement.setString(6, request.getCity());
-            preparedStatement.setTimestamp(7, toTimestamp(LocalDateTime.now()));
-            preparedStatement.setString(8, request.getPassword());
+            preparedStatement.setString(1, request.getFirstName());
+            preparedStatement.setString(2, request.getSecondName());
+            preparedStatement.setDate(3, toDate(request.getBirthdate()));
+            preparedStatement.setString(4, request.getBiography());
+            preparedStatement.setString(5, request.getCity());
+            preparedStatement.setTimestamp(6, toTimestamp(LocalDateTime.now()));
+            preparedStatement.setString(7, request.getPassword());
             try {
                 connection.beginRequest();
                 log.info("commit person={}", request);
-                int resultSet = preparedStatement.executeUpdate();
-                if (resultSet <= 0) {
-                    throw new MyJdbcException("JDBC exception. Unable to create person");
-                }
+                int i = preparedStatement.executeUpdate();
+                ResultSet rs = preparedStatement.getGeneratedKeys();
+                rs.next();
+                UUID generatedUUID = getUUID(rs, "id");
+                log.info("generated id={}", generatedUUID);
+                request.setId(generatedUUID);
                 connection.commit();
                 connection.setAutoCommit(true);
                 return request;
