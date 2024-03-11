@@ -16,6 +16,7 @@ quarkus:
       input-base-dir: src/main/resources/openapi
       spec:
         openapi_json:
+          additional-api-type-annotations: "@com.dimas.controller.filter.Secured"
           base-package: com.dimas.openapi
           model-name-prefix: Api
 

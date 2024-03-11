@@ -21,6 +21,8 @@ public class PersonService {
 
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+    private final TokenService tokenService;
+    private final AuthService authService;
 
     public Person findById(UUID id) {
         return personRepository.getById(id);
@@ -32,7 +34,9 @@ public class PersonService {
         if (!validPassword(person.getPassword(), password)) {
             throw new ForbiddenException("Неверный логин или пароль");
         }
-        return person.getId().toString();//todo return token, replace to auth service
+        var token = tokenService.generate(person.getId(), null);
+        authService.save(id, token);
+        return token;
     }
 
     public Person findByName(String name) {

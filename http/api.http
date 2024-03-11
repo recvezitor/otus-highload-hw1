@@ -22,10 +22,11 @@ POST {{protocol}}{{host}}/login
 Content-Type: application/json
 
 {
-  "id": "f33cb6dd-dad0-4fc8-8511-fbecc91dc2bc",
+  "id": "5739110f-dae4-4454-961f-460518aa4131",
   "password": "123"
 }
 
 ###
 GET {{protocol}}{{host}}/user/get/f33cb6dd-dad0-4fc8-8511-fbecc91dc2bc
 Content-Type: application/json
+Authorization: Bearer r1lvusg67qkunbj4v2f44gmhab

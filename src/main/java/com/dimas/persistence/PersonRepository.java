@@ -110,7 +110,7 @@ public class PersonRepository {
                 .orElseThrow(() -> new NotFoundJdbcException("Person not found for name='%s'".formatted(name)));
     }
 
-    public Optional<Person> findByName(String name) {//TODO handle case when found more then 1
+    public Optional<Person> findByName(String name) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("""
                     select * from %s.person where first_name = ?  LIMIT 1

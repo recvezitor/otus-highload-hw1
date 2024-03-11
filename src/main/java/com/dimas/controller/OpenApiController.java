@@ -1,18 +1,18 @@
 package com.dimas.controller;
 
+import com.dimas.api.SecuredApi;
+import com.dimas.api.model.ApiDialogMessage;
+import com.dimas.api.model.ApiDialogUserIdSendPostRequest;
+import com.dimas.api.model.ApiLoginPost200Response;
+import com.dimas.api.model.ApiLoginPostRequest;
+import com.dimas.api.model.ApiPost;
+import com.dimas.api.model.ApiPostCreatePostRequest;
+import com.dimas.api.model.ApiPostUpdatePutRequest;
+import com.dimas.api.model.ApiUser;
+import com.dimas.api.model.ApiUserRegisterPost200Response;
+import com.dimas.api.model.ApiUserRegisterPostRequest;
 import com.dimas.domain.mapper.PersonMapper;
 import com.dimas.log.LogRequest;
-import com.dimas.openapi.api.DefaultApi;
-import com.dimas.openapi.model.ApiDialogMessage;
-import com.dimas.openapi.model.ApiDialogUserIdSendPostRequest;
-import com.dimas.openapi.model.ApiLoginPost200Response;
-import com.dimas.openapi.model.ApiLoginPostRequest;
-import com.dimas.openapi.model.ApiPost;
-import com.dimas.openapi.model.ApiPostCreatePostRequest;
-import com.dimas.openapi.model.ApiPostUpdatePutRequest;
-import com.dimas.openapi.model.ApiUser;
-import com.dimas.openapi.model.ApiUserRegisterPost200Response;
-import com.dimas.openapi.model.ApiUserRegisterPostRequest;
 import com.dimas.service.PersonService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Response;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @ApplicationScoped
 @RequiredArgsConstructor
 @LogRequest
-public class OpenApiController implements DefaultApi {
+public class OpenApiController implements SecuredApi {
 
     private final PersonService personService;
     private final PersonMapper personMapper;
