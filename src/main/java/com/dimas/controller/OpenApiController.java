@@ -12,7 +12,6 @@ import com.dimas.api.model.ApiUser;
 import com.dimas.api.model.ApiUserRegisterPost200Response;
 import com.dimas.api.model.ApiUserRegisterPostRequest;
 import com.dimas.domain.mapper.PersonMapper;
-import com.dimas.log.LogRequest;
 import com.dimas.service.PersonService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Response;
@@ -26,7 +25,6 @@ import java.util.UUID;
 @Slf4j
 @ApplicationScoped
 @RequiredArgsConstructor
-@LogRequest
 public class OpenApiController implements SecuredApi {
 
     private final PersonService personService;

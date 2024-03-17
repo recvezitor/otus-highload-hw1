@@ -8,7 +8,6 @@ import static java.util.Objects.isNull;
 @UtilityClass
 public class SecurityUtil {
 
-
     public static String encrypt(String plainPassword) {
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
     }

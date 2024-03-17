@@ -11,7 +11,6 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.io.IOException;
 @Secured
 @Slf4j
 @Provider
-@RequiredArgsConstructor
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationSecurityFilter implements ContainerRequestFilter {
     private static final String REALM = "example";

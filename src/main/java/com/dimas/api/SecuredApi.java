@@ -10,6 +10,7 @@ import com.dimas.api.model.ApiPostUpdatePutRequest;
 import com.dimas.api.model.ApiUser;
 import com.dimas.api.model.ApiUserRegisterPost200Response;
 import com.dimas.api.model.ApiUserRegisterPostRequest;
+import com.dimas.controller.filter.LogFilterRequest;
 import com.dimas.controller.filter.Secured;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.Consumes;
@@ -30,6 +31,8 @@ import java.util.List;
  */
 @Path("")
 @ApplicationScoped
+//@LogRequest
+@LogFilterRequest
 public interface SecuredApi {
 
 

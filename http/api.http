@@ -17,16 +17,31 @@ Content-Type: application/json
   "password": "123"
 }
 
+> {%
+    client.global.set("user_id", response.body.user_id);
+%}
+
 ###
 POST {{protocol}}{{host}}/login
 Content-Type: application/json
 
 {
-  "id": "5739110f-dae4-4454-961f-460518aa4131",
+  "id": "{{user_id}}",
   "password": "123"
 }
 
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
 ###
-GET {{protocol}}{{host}}/user/get/f33cb6dd-dad0-4fc8-8511-fbecc91dc2bc
+GET {{protocol}}{{host}}/user/get/{{user_id}}
 Content-Type: application/json
-Authorization: Bearer r1lvusg67qkunbj4v2f44gmhab
+Authorization: Bearer {{auth_token}}
+
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
