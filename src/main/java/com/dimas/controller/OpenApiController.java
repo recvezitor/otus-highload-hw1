@@ -45,6 +45,11 @@ public class OpenApiController implements SecuredApi {
     }
 
     @Override
+    public List<ApiUser> userSearchGet(String firstName, String lastName) {
+        return personService.search(firstName, lastName);
+    }
+
+    @Override
     public ApiUser userGetIdGet(String id) {
         return personMapper.map(personService.findById(UUID.fromString(id)));
     }
@@ -92,12 +97,6 @@ public class OpenApiController implements SecuredApi {
 
     @Override
     public Response postUpdatePut(ApiPostUpdatePutRequest apiPostUpdatePutRequest) {
-        throw new RuntimeException("not implemented");
-    }
-
-
-    @Override
-    public List<ApiUser> userSearchGet(String firstName, String lastName) {
         throw new RuntimeException("not implemented");
     }
 

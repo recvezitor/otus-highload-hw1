@@ -60,14 +60,27 @@ public interface SecuredApi {
     ApiUserRegisterPost200Response userRegisterPost(ApiUserRegisterPostRequest apiUserRegisterPostRequest);
 
     /**
+     * Поиск анкет
+     *
+     * @param firstName Условие поиска по имени
+     * @param lastName  Условие поиска по фамилии
+     */
+    @GET
+    @Path("/user/search")
+    @Produces({"application/json"})
+    @Secured
+    List<ApiUser> userSearchGet(
+            @QueryParam("first_name") String firstName,
+            @QueryParam("last_name") String lastName
+    );
+
+    /**
      * @param userId
      */
     @GET
     @Path("/dialog/{user_id}/list")
     @Produces({"application/json"})
-    List<ApiDialogMessage> dialogUserIdListGet(
-            @PathParam("user_id") String userId
-    );
+    List<ApiDialogMessage> dialogUserIdListGet(@PathParam("user_id") String userId);
 
     /**
      * @param userId
@@ -88,9 +101,7 @@ public interface SecuredApi {
     @PUT
     @Path("/friend/delete/{user_id}")
     @Produces({"application/json"})
-    jakarta.ws.rs.core.Response friendDeleteUserIdPut(
-            @PathParam("user_id") String userId
-    );
+    jakarta.ws.rs.core.Response friendDeleteUserIdPut(@PathParam("user_id") String userId);
 
     /**
      * @param userId
@@ -98,9 +109,7 @@ public interface SecuredApi {
     @PUT
     @Path("/friend/set/{user_id}")
     @Produces({"application/json"})
-    jakarta.ws.rs.core.Response friendSetUserIdPut(
-            @PathParam("user_id") String userId
-    );
+    jakarta.ws.rs.core.Response friendSetUserIdPut(@PathParam("user_id") String userId);
 
     /**
      * Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации
@@ -162,19 +171,5 @@ public interface SecuredApi {
      *
      * @param apiUserRegisterPostRequest
      */
-
-    /**
-     * Поиск анкет
-     *
-     * @param firstName Условие поиска по имени
-     * @param lastName  Условие поиска по фамилии
-     */
-    @GET
-    @Path("/user/search")
-    @Produces({"application/json"})
-    List<ApiUser> userSearchGet(
-            @QueryParam("first_name") String firstName,
-            @QueryParam("last_name") String lastName
-    );
 
 }

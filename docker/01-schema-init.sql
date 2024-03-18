@@ -10,7 +10,7 @@ CREATE TABLE person
     birthdate   date,
     biography   TEXT,
     city        varchar(1024),
-    password    varchar NOT NULL,
+    password    varchar NOT NULL default 123,
     created_at  timestamp without time zone not null default now(),
     updated_at  timestamp without time zone
 );

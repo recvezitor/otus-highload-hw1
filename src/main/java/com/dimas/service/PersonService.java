@@ -1,5 +1,6 @@
 package com.dimas.service;
 
+import com.dimas.api.model.ApiUser;
 import com.dimas.domain.PersonCreate;
 import com.dimas.domain.entity.Person;
 import com.dimas.domain.mapper.PersonMapper;
@@ -9,6 +10,7 @@ import jakarta.ws.rs.ForbiddenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.dimas.util.SecurityUtil.encrypt;
@@ -47,6 +49,11 @@ public class PersonService {
         var person = personMapper.map(request);
         person.setPassword(encrypt(request.getPassword()));
         return personRepository.create(person);
+    }
+
+    public List<ApiUser> search(String firstName, String lastName) {
+        return personRepository.search(firstName, lastName)
+                .stream().map(personMapper::map).toList();
     }
 
 }

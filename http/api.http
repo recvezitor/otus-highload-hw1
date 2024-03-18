@@ -9,11 +9,11 @@ POST {{protocol}}{{host}}/user/register
 Content-Type: application/json
 
 {
-  "first_name": "fff1",
-  "second_name": "fff",
+  "first_name": "admin",
+  "second_name": "admin",
   "birthdate": "2012-02-03",
-  "biography": "fff",
-  "city": "fff",
+  "biography": "bio",
+  "city": "city-city",
   "password": "123"
 }
 
@@ -36,6 +36,18 @@ Content-Type: application/json
 
 ###
 GET {{protocol}}{{host}}/user/get/{{user_id}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+###
+GET {{protocol}}{{host}}/user/search/?first_name=a&last_name=A
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 

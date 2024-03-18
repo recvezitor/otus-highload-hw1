@@ -3,6 +3,7 @@ package com.dimas.persistence;
 import com.dimas.domain.entity.Person;
 import com.dimas.exception.MyJdbcException;
 import com.dimas.exception.NotFoundJdbcException;
+import com.dimas.log.LogArguments;
 import io.agroal.api.AgroalDataSource;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +33,7 @@ import static java.util.Objects.isNull;
 @Slf4j
 @RequiredArgsConstructor
 @ApplicationScoped
+@LogArguments
 public class PersonRepository {
 
     private final AgroalDataSource dataSource;
@@ -128,6 +132,25 @@ public class PersonRepository {
         }
     }
 
+    public List<Person> search(String firstName, String lastName) {//warn, no paging
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                    select * from %s.person where lower(first_name) LIKE ? AND lower(second_name) LIKE ? LIMIT 10000
+                    """.formatted(SCHEMA_NAME));
+            preparedStatement.setString(1, firstName.toLowerCase() + "%");
+            preparedStatement.setString(2, lastName.toLowerCase() + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Person> result = new ArrayList<>();
+            while (resultSet.next()) {
+                Person entity = map(resultSet);
+                result.add(entity);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new MyJdbcException("JDBC exception", e);
+        }
+    }
+
     private Person map(ResultSet resultSet) throws SQLException {
         Person entity = new Person();
         entity.setId(getUUID(resultSet, "id"));
@@ -141,5 +164,6 @@ public class PersonRepository {
         entity.setPassword(resultSet.getString("password"));
         return entity;
     }
+
 
 }

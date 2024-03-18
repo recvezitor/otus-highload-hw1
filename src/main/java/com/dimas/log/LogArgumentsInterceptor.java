@@ -1,8 +1,10 @@
 package com.dimas.log;
 
+import jakarta.annotation.Priority;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
+import jakarta.ws.rs.Priorities;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Slf4j
 @Interceptor
 @LogArguments
+@Priority(Priorities.USER - 1)
 public class LogArgumentsInterceptor {
 
     private final List<Class<?>> skipList = List.of(byte[].class);
