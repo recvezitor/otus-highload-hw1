@@ -18,11 +18,12 @@ quarkus:
         openapi_json:
           base-package: com.dimas.openapi
           model-name-prefix: Api
-
   datasource:
     jdbc:
       url: ${DB_URL}
-      max-size: ${DB_POOL_SIZE:100}
+      max-size: ${DB_POOL_SIZE:80}
+      idle-timeout: ${DB_POOL_IDLE_TIME:PT30s}
+      max-lifetime: ${DB_POOL_MAX_TIME:PT60s}
     db-kind: postgresql
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}

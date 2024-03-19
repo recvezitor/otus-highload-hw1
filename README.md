@@ -48,6 +48,10 @@ docker tag otus-highload-hw1:latest recvezitor/otus-highload-hw1:latest
 docker login -> recvezitor/password
 docker push recvezitor/otus-highload-hw1:latest
 
+### pool
+SHOW max_connections;
+SELECT sum(numbackends) FROM pg_stat_database;
+
 ### TODO
 
 - использовать uuid с сортировкой
