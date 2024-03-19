@@ -5,7 +5,7 @@ services:
     image: postgres:14
     ports:
       - "5432:5432"
-    command: -c 'max_connections=200'
+    command: -c 'max_connections=1000'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -21,15 +21,18 @@ services:
     ports:
       - "8080:8080"
     environment:
+      JAVA_OPTS_ADD: -XX:MinRAMPercentage=25 -XX:MaxRAMPercentage=50 -XX:+PrintFlagsFinal
       DB_URL: jdbc:postgresql://postgres-otus-db:5432/postgres
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       DB_POOL_SIZE: 100
+      DB_POOL_IDLE_TIME: PT30s
+      DB_POOL_MAX_TIME: PT60s
     deploy:
       resources:
         limits:
-          cpus: "2.0"
+          cpus: "1.0"
           memory: "1024M"
         reservations:
           cpus: "0.5"
-          memory: "128M"
+          memory: "256M"
