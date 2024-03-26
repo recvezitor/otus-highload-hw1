@@ -135,7 +135,7 @@ public class PersonRepository {
     public List<Person> search(String firstName, String lastName) {//warn, no paging
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("""
-                    select * from %s.person where lower(first_name) LIKE ? AND lower(second_name) LIKE ? LIMIT 10000
+                    select * from %s.person where lower(first_name) LIKE ? AND lower(second_name) LIKE ? LIMIT 100
                     """.formatted(SCHEMA_NAME));
             preparedStatement.setString(1, firstName.toLowerCase() + "%");
             preparedStatement.setString(2, lastName.toLowerCase() + "%");
